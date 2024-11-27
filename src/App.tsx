@@ -56,7 +56,7 @@ function App() {
                 hour12: false,
                 hour: '2-digit',
                 minute: '2-digit',
-                timeZone: '+00:00',
+                timeZone: 'Europe/Brussels',
             })
             setLastUpdate(lastUpdate)
         }

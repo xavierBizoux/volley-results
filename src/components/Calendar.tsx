@@ -28,10 +28,12 @@ const CalendarCard = ({ game }: { game: Game }) => {
                     />
                     <span>{game.team1.full_name}</span>
                 </div>
-                <div className='items-center justify-center text-xl w-1/5 hidden lg:block'>
+                <div className='flex flex-row items-center justify-center text-xl w-1/5 hidden lg:block'>
                     {date.charAt(0).toUpperCase() + date.slice(1)}
                 </div>
-                <div className=' items-center justify-center text-xl w-1/5 block lg:hidden'>vs</div>
+                <div className='flex flex-row items-center justify-center text-xl w-1/5 block lg:hidden'>
+                    vs
+                </div>
                 <div className='flex flex-row items-center justify-end text-xl w-2/5 gap-4 '>
                     <span>{game.team2.full_name}</span>
                     <img
