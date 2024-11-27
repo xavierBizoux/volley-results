@@ -40,7 +40,7 @@ const Results = ({ data, filter }: Props) => {
                                     <img
                                         src={game.team1.pic}
                                         alt={game.team1.full_name}
-                                        className='object-scale-down w-10 h-10 max-w-10 max-h-10'
+                                        className='object-scale-down w-10 h-10 max-w-10 max-h-10 hidden lg:block'
                                     />
                                     <span>{game.team1.full_name}</span>
                                 </div>
@@ -52,7 +52,7 @@ const Results = ({ data, filter }: Props) => {
                                     <img
                                         src={game.team2.pic}
                                         alt={game.team2.full_name}
-                                        className=' object-scale-down w-10 h-10 max-w-10 max-h-10'
+                                        className='object-scale-down w-10 h-10 max-w-10 max-h-10 hidden lg:block'
                                     />
                                 </div>
                             </div>

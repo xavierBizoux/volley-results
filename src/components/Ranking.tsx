@@ -94,14 +94,14 @@ const Ranking = ({ data }: Props) => {
             <div className='flex flex-col w-full min-w-full'>
                 <div className='flex flex-row w-full'>
                     <div className='w-1/12'>#</div>
-                    <div className='w-4/12'>Equipe</div>
+                    <div className='flex justify-center w-7/12 sm:w-4/12'>Equipe</div>
                     <div className='w-1/12'>Pts</div>
                     <div className='w-1/12'>MJ</div>
                     <div className='w-1/12'>MG</div>
                     <div className='w-1/12'>MP</div>
-                    <div className='w-1/12'>SG</div>
-                    <div className='w-1/12'>SP</div>
-                    <div className='w-1/12'>R</div>
+                    <div className='w-1/12 hidden sm:block'>SG</div>
+                    <div className='w-1/12 hidden sm:block'>SP</div>
+                    <div className='w-1/12 hidden sm:block'>R</div>
                 </div>
                 {ranking &&
                     ranking.map((rank: Rank, index: number) => {
@@ -110,14 +110,20 @@ const Ranking = ({ data }: Props) => {
                                 key={rank.id}
                                 className='flex flex-row'>
                                 <div className='w-1/12'>{index + 1}</div>
-                                <div className='flex w-4/12 justify-start'>{rank.name}</div>
+                                <div className='flex w-7/12 sm:w-4/12 justify-start'>
+                                    {rank.name}
+                                </div>
                                 <div className='w-1/12'>{rank.points}</div>
                                 <div className='w-1/12'>{rank.matchPlayed}</div>
                                 <div className='w-1/12'>{rank.matchesWon}</div>
                                 <div className='w-1/12'>{rank.matchesLost}</div>
-                                <div className='w-1/12'>{rank.setsWon.toString()}</div>
-                                <div className='w-1/12'>{rank.setsLost.toString()}</div>
-                                <div className='w-1/12'>
+                                <div className='w-1/12 hidden sm:block'>
+                                    {rank.setsWon.toString()}
+                                </div>
+                                <div className='w-1/12 hidden sm:block'>
+                                    {rank.setsLost.toString()}
+                                </div>
+                                <div className='w-1/12 hidden sm:block'>
                                     {(rank.setsWon / rank.setsLost).toFixed(4).toString()}
                                 </div>
                             </div>
