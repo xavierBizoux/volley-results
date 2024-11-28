@@ -29,9 +29,9 @@ const CalendarCard = ({ game }: { game: Game }) => {
         timeZone: '+00:00',
     })
     return (
-        <div className='flex flex-col items-center justify-between w-full rounded-lg mt-2 p-4 border-blue-500 border space-y-4'>
+        <div className='flex flex-col items-center justify-between w-full rounded-lg mt-2 p-4 border-blue-500 border space-y-4 text-l'>
             <div className='flex flex-row w-full'>
-                <div className='flex flex-row justify-start items-center text-xl w-2/5 gap-4'>
+                <div className='flex flex-row justify-start items-center w-2/5 gap-4 text-xl'>
                     <img
                         src={game.team1.pic}
                         alt={game.team1.full_name}
@@ -39,16 +39,16 @@ const CalendarCard = ({ game }: { game: Game }) => {
                     />
                     <span>{game.team1.full_name}</span>
                 </div>
-                <div className='flex flex-col items-center justify-center text-xl w-1/5 hidden lg:block'>
+                <div className='flex flex-col items-center justify-center w-1/5 hidden lg:block'>
                     <div>{dateString.charAt(0).toUpperCase() + dateString.slice(1)}</div>
                     <div>
                         {time} (R: {rTime})
                     </div>
                 </div>
-                <div className='flex flex-row items-center justify-center text-xl w-1/5 block lg:hidden'>
+                <div className='flex flex-row items-center justify-center w-1/5 block lg:hidden'>
                     vs
                 </div>
-                <div className='flex flex-row items-center justify-end text-xl w-2/5 gap-4 '>
+                <div className='flex flex-row items-center justify-end w-2/5 gap-4 text-xl '>
                     <span>{game.team2.full_name}</span>
                     <img
                         src={game.team2.pic}
@@ -57,13 +57,13 @@ const CalendarCard = ({ game }: { game: Game }) => {
                     />
                 </div>
             </div>
-            <div className='items-center justify-center text-xl w-full block lg:hidden'>
+            <div className='items-center justify-center w-full block lg:hidden'>
                 <div>{dateString.charAt(0).toUpperCase() + dateString.slice(1)}</div>
                 <div>
                     {time} (R: {rTime})
                 </div>
             </div>
-            <div className='flex flex-col w-full text-sm border-top border-blue-500'>
+            <div className='flex flex-col w-full text-sm border-t-2 pt-2 border-blue-300'>
                 <span>{game.facility.name}</span>
                 <span> {game.facility.venue_address}</span>
                 <span> {game.facility.venue_zip + ' ' + game.facility.venue_city}</span>

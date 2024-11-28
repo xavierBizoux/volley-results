@@ -91,7 +91,7 @@ const Ranking = ({ data }: Props) => {
 
     return (
         <>
-            <div className='flex flex-col w-full min-w-full'>
+            <div className='flex flex-col w-full min-w-full text-l'>
                 <div className='flex flex-row w-full'>
                     <div className='w-1/12'>#</div>
                     <div className='flex justify-center w-7/12 sm:w-4/12'>Equipe</div>
