@@ -7,11 +7,22 @@ type Props = {
 }
 
 const CalendarCard = ({ game }: { game: Game }) => {
-    const date = new Date(game.start_date).toLocaleDateString('fr-BE', {
+    const date = new Date(game.start_date)
+    const rDate = new Date(date.getTime() - 90 * 60 * 1000)
+    const dateString = date.toLocaleDateString('fr-BE', {
         weekday: 'long',
         day: 'numeric',
         month: 'numeric',
         year: 'numeric',
+        timeZone: '+00:00',
+    })
+    const time = date.toLocaleTimeString('fr-BE', {
+        hour12: false,
+        hour: '2-digit',
+        minute: '2-digit',
+        timeZone: '+00:00',
+    })
+    const rTime = rDate.toLocaleTimeString('fr-BE', {
         hour12: false,
         hour: '2-digit',
         minute: '2-digit',
@@ -28,8 +39,11 @@ const CalendarCard = ({ game }: { game: Game }) => {
                     />
                     <span>{game.team1.full_name}</span>
                 </div>
-                <div className='flex flex-row items-center justify-center text-xl w-1/5 hidden lg:block'>
-                    {date.charAt(0).toUpperCase() + date.slice(1)}
+                <div className='flex flex-col items-center justify-center text-xl w-1/5 hidden lg:block'>
+                    <div>{dateString.charAt(0).toUpperCase() + dateString.slice(1)}</div>
+                    <div>
+                        {time} (R: {rTime})
+                    </div>
                 </div>
                 <div className='flex flex-row items-center justify-center text-xl w-1/5 block lg:hidden'>
                     vs
@@ -44,7 +58,10 @@ const CalendarCard = ({ game }: { game: Game }) => {
                 </div>
             </div>
             <div className='items-center justify-center text-xl w-full block lg:hidden'>
-                {date.charAt(0).toUpperCase() + date.slice(1)}
+                <div>{dateString.charAt(0).toUpperCase() + dateString.slice(1)}</div>
+                <div>
+                    {time} (R: {rTime})
+                </div>
             </div>
             <div className='flex flex-col w-full text-sm border-top border-blue-500'>
                 <span>{game.facility.name}</span>
