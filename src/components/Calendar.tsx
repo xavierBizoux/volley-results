@@ -28,6 +28,7 @@ const CalendarCard = ({ game }: { game: Game }) => {
         minute: '2-digit',
         timeZone: '+00:00',
     })
+    const wazeURL = `https://waze.com/ul?ll=${game.facility.lat}%2C${game.facility.lng}&navigate=yes&zoom=17`
     return (
         <div className='flex flex-col items-center justify-between w-full rounded-lg mt-2 p-4 border-blue-500 border space-y-4 text-l'>
             <div className='flex flex-row w-full'>
@@ -64,10 +65,15 @@ const CalendarCard = ({ game }: { game: Game }) => {
                 </div>
             </div>
             <div className='flex flex-col w-full text-sm border-t-2 pt-2 border-blue-300'>
-                <span>{game.facility.name}</span>
-                <span> {game.facility.venue_address}</span>
-                <span> {game.facility.venue_zip + ' ' + game.facility.venue_city}</span>
-                <span> {'Lat: ' + game.facility.lat + ', Lng: ' + game.facility.lng}</span>
+                <a
+                    href={wazeURL}
+                    target='_blank'
+                    rel='noreferrer'>
+                    <span>{game.facility.name}</span>
+                    <span> {game.facility.venue_address}</span>
+                    <span> {game.facility.venue_zip + ' ' + game.facility.venue_city}</span>
+                    <span> {'Lat: ' + game.facility.lat + ', Lng: ' + game.facility.lng}</span>
+                </a>
             </div>
         </div>
     )
