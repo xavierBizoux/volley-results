@@ -68,8 +68,9 @@ const CalendarCard = ({ game }: { game: Game }) => {
                 <a
                     href={wazeURL}
                     target='_blank'
-                    rel='noreferrer'>
-                    <span>{game.facility.name}</span>
+                    rel='noreferrer'
+                    className='flex flex-col w-full'>
+                    <span className='font-bold'>{game.facility.name}</span>
                     <span> {game.facility.venue_address}</span>
                     <span> {game.facility.venue_zip + ' ' + game.facility.venue_city}</span>
                     <span> {'Lat: ' + game.facility.lat + ', Lng: ' + game.facility.lng}</span>
