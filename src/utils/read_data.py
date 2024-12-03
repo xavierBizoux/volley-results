@@ -73,8 +73,10 @@ def reader(url, extract_path, web_path):
     script = soup.find("script", {"id": "__NEXT_DATA__"})
     data = json.loads(script.text)
     menu = data.get("props").get("menu")
+    print("Scraping web files...")
     for item in menu:
         read_children(item, url, extract_path)
+    print("Moving web files...")
     web_selector(extract_path, web_path)
 
 
