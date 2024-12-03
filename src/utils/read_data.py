@@ -27,7 +27,7 @@ def read_data(input_url, output_file):
         pass
 
 
-def read_children(item, url):
+def read_children(item, url, output_folder):
     if len(item.get("children")) > 0:
         for child in item.get("children"):
             read_children(child, url)
@@ -36,7 +36,7 @@ def read_children(item, url):
             filename = filenameCleaner(item.get("name"))
             read_data(
                 url + item.get("url"),
-                "data/" + filename + ".json",
+                output_folder + "/" + filename + ".json",
             )
 
 
@@ -67,16 +67,18 @@ def web_selector(directory, target_directory):
         json.dump(data, f, indent=4)
 
 
-def reader(url):
+def reader(url, extract_path, web_path):
     response = requests.get(url)
     soup = BeautifulSoup(response.text, "html.parser")
     script = soup.find("script", {"id": "__NEXT_DATA__"})
     data = json.loads(script.text)
     menu = data.get("props").get("menu")
     for item in menu:
-        read_children(item, url)
-    web_selector("data", "to_web")
+        read_children(item, url, extract_path)
+    web_selector(extract_path, web_path)
 
 
 if __name__ == "__main__":
-    reader("https://www.portailfvwb.be/")
+    EXTRACT_DATA_PATH = "/home/xavierb1/volley_data/data"
+    WEB_DATA_PATH = "/home/xavierb1/public_html/volley-data/data"
+    reader("https://www.portailfvwb.be/", EXTRACT_DATA_PATH, WEB_DATA_PATH)

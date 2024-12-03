@@ -45,14 +45,15 @@ const updateRanking = (record: Rank, teamNumber: 1 | 2, game: Game) => {
         }
     }
     const { pointsTeam1, pointsTeam2 } = calculatePoints(game)
+
     const ranking = {
         ...record,
         points: record.points + pointsTeam1,
         matchPlayed: record.matchPlayed + 1,
         matchesWon: pointsTeam1 > pointsTeam2 ? record.matchesWon + 1 : record.matchesWon,
         matchesLost: pointsTeam1 < pointsTeam2 ? record.matchesLost + 1 : record.matchesLost,
-        setsWon: record.setsWon + game.score1!,
-        setsLost: record.setsLost + game.score2!,
+        setsWon: game.score1 ? record.setsWon + game.score1 : record.setsWon,
+        setsLost: game.score2 ? record.setsLost + game.score2 : record.setsLost,
     }
     return ranking
 }
