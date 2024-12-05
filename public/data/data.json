@@ -1,0 +1,47 @@
+[
+    {
+        "path": "./data/Promotion_A_Messieurs.json",
+        "name": "Promotion A Messieurs",
+        "last_update": "2024-11-27 12:15:00"
+    },
+    {
+        "path": "./data/P2A_Messieurs.json",
+        "name": "P2A Messieurs",
+        "last_update": "2024-11-27 12:15:00"
+    },
+    {
+        "path": "./data/P3A_Messieurs.json",
+        "name": "P3A Messieurs",
+        "last_update": "2024-11-27 12:15:00"
+    },
+    {
+        "path": "./data/P3A_Dames.json",
+        "name": "P3A Dames",
+        "last_update": "2024-11-27 12:15:00"
+    },
+    {
+        "path": "./data/Promotion_A_Dames_-_R.json",
+        "name": "Promotion A Dames - R",
+        "last_update": "2024-11-27 12:15:00"
+    },
+    {
+        "path": "./data/P1_Dames.json",
+        "name": "P1 Dames",
+        "last_update": "2024-11-27 12:15:00"
+    },
+    {
+        "path": "./data/Promotion_A_Dames.json",
+        "name": "Promotion A Dames",
+        "last_update": "2024-11-27 12:15:00"
+    },
+    {
+        "path": "./data/P2A_Messieurs_R.json",
+        "name": "P2A Messieurs R",
+        "last_update": "2024-11-27 12:15:00"
+    },
+    {
+        "path": "./data/Promotion_A_Messieurs_-_R.json",
+        "name": "Promotion A Messieurs - R",
+        "last_update": "2024-11-27 12:15:00"
+    }
+]
