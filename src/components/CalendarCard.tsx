@@ -1,6 +1,7 @@
 import { Box, Divider, Paper, Typography } from '@mui/material'
 import Grid from '@mui/material/Grid2'
 import { Game } from '../utils/types'
+import Team from './CardElements/Team'
 
 type Props = {
     game: Game
@@ -37,54 +38,22 @@ const CalendarCard = ({ game }: Props) => {
                 container
                 sx={{ flexDirection: { xs: 'column', sm: 'row' } }}
                 key={game.id}>
+                <Team
+                    team={game.team1}
+                    align={'left'}
+                />
                 <Grid
-                    size={1}
-                    sx={{ display: { xs: 'none', sm: 'block' } }}
-                    alignContent={'center'}
-                    textAlign={'center'}>
-                    <img
-                        src={game.team1.pic}
-                        alt={game.team1.full_name}
-                        width={'75rem'}
-                    />
-                </Grid>
-                <Grid
-                    size={{ xs: 12, sm: 4 }}
-                    alignContent={'center'}>
-                    <Typography
-                        variant='h6'
-                        textAlign={{ xs: 'center', sm: 'right' }}>
-                        {game.team1.name + ' ' + game.team1.subname}
-                    </Typography>
-                </Grid>
-                <Grid
-                    size={{ xs: 12, sm: 4 }}
+                    size={{ xs: 12, sm: 2 }}
                     alignContent={'center'}>
                     <Typography sx={{ textAlign: 'center' }}>{matchDateStr}</Typography>
                     <Typography sx={{ textAlign: 'center' }}>
                         {matchTimeStr} (R: {reserveTimeStr})
                     </Typography>
                 </Grid>
-                <Grid
-                    size={{ xs: 12, sm: 4 }}
-                    alignContent={'center'}>
-                    <Typography
-                        variant='h6'
-                        textAlign={{ xs: 'center', sm: 'right' }}>
-                        {game.team2.name + ' ' + game.team2.subname}
-                    </Typography>
-                </Grid>
-                <Grid
-                    size={{ xs: 12, sm: 2 }}
-                    sx={{ display: { xs: 'none', sm: 'block' } }}
-                    alignContent={'center'}
-                    textAlign={'center'}>
-                    <img
-                        src={game.team2.pic}
-                        alt={game.team2.full_name}
-                        width={'75rem'}
-                    />
-                </Grid>
+                <Team
+                    team={game.team2}
+                    align={'right'}
+                />
             </Grid>
             <Divider variant='middle' />
             <Box>
@@ -96,11 +65,9 @@ const CalendarCard = ({ game }: Props) => {
                         {game.facility.name}
                     </Typography>
                     <Typography sx={{ textAlign: 'center' }}>
-                        {' '}
                         {game.facility.venue_address}
                     </Typography>
                     <Typography sx={{ textAlign: 'center' }}>
-                        {' '}
                         {game.facility.venue_zip + ' ' + game.facility.venue_city}
                     </Typography>
                 </a>

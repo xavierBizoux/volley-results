@@ -3,6 +3,7 @@ import Container from '@mui/material/Container'
 import Grid from '@mui/material/Grid2'
 import { useEffect, useState } from 'react'
 import Calendar from './components/Calendar'
+import Ranking from './components/Ranking.tsx'
 import Results from './components/Results'
 import Selection, { Option } from './components/Selection'
 import { Competition, Game, Team } from './utils/types'
@@ -129,6 +130,10 @@ const App = () => {
                     </Grid>
                 )}
             </Grid>
+            <Ranking
+                games={games}
+                team={teams.find((team: Team) => team.id === parseInt(selectedTeam.value))!}
+            />
             <Results
                 games={games}
                 team={teams.find((team: Team) => team.id === parseInt(selectedTeam.value))!}

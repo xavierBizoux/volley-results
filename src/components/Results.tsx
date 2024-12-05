@@ -34,7 +34,7 @@ const Results = ({ games, team }: Props) => {
     return (
         <Paper sx={{ mt: 2 }}>
             <Typography
-                variant='h3'
+                variant='h4'
                 sx={{
                     textAlign: 'center',
                     backgroundColor: 'primary.main',
