@@ -1,4 +1,12 @@
-import { List, ListItem, Paper, Typography } from '@mui/material'
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
+import {
+    Accordion,
+    AccordionDetails,
+    AccordionSummary,
+    List,
+    ListItem,
+    Typography,
+} from '@mui/material'
 import { useEffect, useState } from 'react'
 import { Game, Team } from '../utils/types'
 import ResultsCard from './ResultsCard'
@@ -32,25 +40,22 @@ const Results = ({ games, team }: Props) => {
     }, [team, games])
 
     return (
-        <Paper sx={{ mt: 2 }}>
-            <Typography
-                variant='h4'
-                sx={{
-                    textAlign: 'center',
-                    backgroundColor: 'primary.main',
-                    color: 'primary.contrastText',
-                    borderRadius: '5px',
-                }}>
-                Résultats
-            </Typography>
-            <List sx={{ width: '100%' }}>
-                {filteredData.map((game: Game) => (
-                    <ListItem key={game.id}>
-                        <ResultsCard game={game} />
-                    </ListItem>
-                ))}
-            </List>
-        </Paper>
+        <Accordion sx={{ mt: 2 }}>
+            <AccordionSummary
+                expandIcon={<ExpandMoreIcon sx={{ color: 'primary.contrastText' }} />}
+                sx={{ backgroundColor: 'primary.main', color: 'primary.contrastText' }}>
+                <Typography variant='h6'>Résultats</Typography>
+            </AccordionSummary>
+            <AccordionDetails>
+                <List sx={{ width: '100%' }}>
+                    {filteredData.map((game: Game) => (
+                        <ListItem key={game.id}>
+                            <ResultsCard game={game} />
+                        </ListItem>
+                    ))}
+                </List>
+            </AccordionDetails>
+        </Accordion>
     )
 }
 

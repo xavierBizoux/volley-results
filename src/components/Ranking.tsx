@@ -1,4 +1,5 @@
-import { Typography } from '@mui/material'
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
+import { Accordion, AccordionDetails, AccordionSummary, Typography } from '@mui/material'
 import Grid from '@mui/material/Grid2'
 import { Game, Rank, Team } from '../utils/types'
 
@@ -94,149 +95,172 @@ const Ranking = ({ games, team }: Props) => {
     })
 
     return (
-        <Grid
-            container
-            spacing={1}>
-            <Grid
-                container
-                size={12}>
-                <Grid size={1}>
-                    <Typography
-                        variant='h6'
-                        sx={{ fontSize: { xs: '1rem', sm: '1.2rem' }, textAlign: 'center' }}>
-                        #
-                    </Typography>
-                </Grid>
+        <Accordion
+            sx={{ mt: 2 }}
+            defaultExpanded>
+            <AccordionSummary
+                expandIcon={<ExpandMoreIcon sx={{ color: 'primary.contrastText' }} />}
+                sx={{ backgroundColor: 'primary.main', color: 'primary.contrastText' }}>
+                <Typography variant='h6'>Classement</Typography>
+            </AccordionSummary>
+            <AccordionDetails>
                 <Grid
-                    size={{ xs: 7, sm: 4 }}
-                    sx={{ textAlign: 'center' }}>
-                    <Typography
-                        variant='h6'
-                        sx={{ fontSize: { xs: '1rem', sm: '1.2rem' } }}>
-                        Equipe
-                    </Typography>
-                </Grid>
-                <Grid
-                    size={1}
-                    sx={{ textAlign: 'center' }}>
-                    <Typography
-                        variant='h6'
-                        sx={{ fontSize: { xs: '1rem', sm: '1.2rem' } }}>
-                        Pts
-                    </Typography>
-                </Grid>
-                <Grid
-                    size={1}
-                    sx={{ textAlign: 'center' }}>
-                    <Typography
-                        variant='h6'
-                        sx={{ fontSize: { xs: '1rem', sm: '1.2rem' } }}>
-                        MJ
-                    </Typography>
-                </Grid>
-                <Grid
-                    size={1}
-                    sx={{ textAlign: 'center' }}>
-                    <Typography
-                        variant='h6'
-                        sx={{ fontSize: { xs: '1rem', sm: '1.2rem' } }}>
-                        MG
-                    </Typography>
-                </Grid>
-                <Grid
-                    size={1}
-                    sx={{ textAlign: 'center' }}>
-                    <Typography
-                        variant='h6'
-                        sx={{ fontSize: { xs: '1rem', sm: '1.2rem' } }}>
-                        MP
-                    </Typography>
-                </Grid>
-                <Grid
-                    size={1}
-                    sx={{ textAlign: 'center', display: { xs: 'none', sm: 'block' } }}>
-                    <Typography
-                        variant='h6'
-                        sx={{ fontSize: { xs: '1rem', sm: '1.2rem' } }}>
-                        SG
-                    </Typography>
-                </Grid>
-                <Grid
-                    size={1}
-                    sx={{ textAlign: 'center', display: { xs: 'none', sm: 'block' } }}>
-                    <Typography
-                        variant='h6'
-                        sx={{ fontSize: { xs: '1rem', sm: '1.2rem' } }}>
-                        SP
-                    </Typography>
-                </Grid>
-                <Grid
-                    size={1}
-                    sx={{ textAlign: 'center', display: { xs: 'none', sm: 'block' } }}>
-                    <Typography
-                        variant='h6'
-                        sx={{ fontSize: { xs: '1rem', sm: '1.2rem' } }}>
-                        R
-                    </Typography>
-                </Grid>
-            </Grid>
-            {ranking &&
-                ranking.map((rank: Rank, index: number) => {
-                    return (
-                        <Grid
-                            container
-                            key={rank.id}
-                            sx={{
-                                borderColor: rank.id === team.id ? 'primary.light' : '',
-                                borderStyle: rank.id === team.id ? 'solid' : '',
-                                borderWidth: rank.id === team.id ? '1px' : '',
-                            }}
-                            size={12}>
-                            <Grid
-                                size={1}
-                                sx={{ textAlign: 'center' }}>
-                                {index + 1}
-                            </Grid>
-                            <Grid size={{ xs: 7, sm: 4 }}>{rank.name}</Grid>
-                            <Grid
-                                size={1}
-                                sx={{ textAlign: 'center' }}>
-                                {rank.points}
-                            </Grid>
-                            <Grid
-                                size={1}
-                                sx={{ textAlign: 'center' }}>
-                                {rank.matchPlayed}
-                            </Grid>
-                            <Grid
-                                size={1}
-                                sx={{ textAlign: 'center' }}>
-                                {rank.matchesWon}
-                            </Grid>
-                            <Grid
-                                size={1}
-                                sx={{ textAlign: 'center' }}>
-                                {rank.matchesLost}
-                            </Grid>
-                            <Grid
-                                size={1}
-                                sx={{ textAlign: 'center', display: { xs: 'none', sm: 'block' } }}>
-                                {rank.setsWon.toString()}
-                            </Grid>
-                            <Grid
-                                size={1}
-                                sx={{ textAlign: 'center', display: { xs: 'none', sm: 'block' } }}>
-                                {rank.setsLost.toString()}
-                            </Grid>
-                            <Grid
-                                size={1}
-                                sx={{ textAlign: 'center', display: { xs: 'none', sm: 'block' } }}>
-                                {(rank.setsWon / rank.setsLost).toFixed(4).toString()}
-                            </Grid>
+                    container
+                    spacing={1}>
+                    <Grid
+                        container
+                        size={12}>
+                        <Grid size={1}>
+                            <Typography
+                                variant='h6'
+                                sx={{
+                                    fontSize: { xs: '1rem', sm: '1.2rem' },
+                                    textAlign: 'center',
+                                }}>
+                                #
+                            </Typography>
                         </Grid>
-                    )
-                })}
-        </Grid>
+                        <Grid
+                            size={{ xs: 7, sm: 4 }}
+                            sx={{ textAlign: 'center' }}>
+                            <Typography
+                                variant='h6'
+                                sx={{ fontSize: { xs: '1rem', sm: '1.2rem' } }}>
+                                Equipe
+                            </Typography>
+                        </Grid>
+                        <Grid
+                            size={1}
+                            sx={{ textAlign: 'center' }}>
+                            <Typography
+                                variant='h6'
+                                sx={{ fontSize: { xs: '1rem', sm: '1.2rem' } }}>
+                                Pts
+                            </Typography>
+                        </Grid>
+                        <Grid
+                            size={1}
+                            sx={{ textAlign: 'center' }}>
+                            <Typography
+                                variant='h6'
+                                sx={{ fontSize: { xs: '1rem', sm: '1.2rem' } }}>
+                                MJ
+                            </Typography>
+                        </Grid>
+                        <Grid
+                            size={1}
+                            sx={{ textAlign: 'center' }}>
+                            <Typography
+                                variant='h6'
+                                sx={{ fontSize: { xs: '1rem', sm: '1.2rem' } }}>
+                                MG
+                            </Typography>
+                        </Grid>
+                        <Grid
+                            size={1}
+                            sx={{ textAlign: 'center' }}>
+                            <Typography
+                                variant='h6'
+                                sx={{ fontSize: { xs: '1rem', sm: '1.2rem' } }}>
+                                MP
+                            </Typography>
+                        </Grid>
+                        <Grid
+                            size={1}
+                            sx={{ textAlign: 'center', display: { xs: 'none', sm: 'block' } }}>
+                            <Typography
+                                variant='h6'
+                                sx={{ fontSize: { xs: '1rem', sm: '1.2rem' } }}>
+                                SG
+                            </Typography>
+                        </Grid>
+                        <Grid
+                            size={1}
+                            sx={{ textAlign: 'center', display: { xs: 'none', sm: 'block' } }}>
+                            <Typography
+                                variant='h6'
+                                sx={{ fontSize: { xs: '1rem', sm: '1.2rem' } }}>
+                                SP
+                            </Typography>
+                        </Grid>
+                        <Grid
+                            size={1}
+                            sx={{ textAlign: 'center', display: { xs: 'none', sm: 'block' } }}>
+                            <Typography
+                                variant='h6'
+                                sx={{ fontSize: { xs: '1rem', sm: '1.2rem' } }}>
+                                R
+                            </Typography>
+                        </Grid>
+                    </Grid>
+                    {ranking &&
+                        ranking.map((rank: Rank, index: number) => {
+                            return (
+                                <Grid
+                                    container
+                                    key={rank.id}
+                                    sx={{
+                                        borderColor: rank.id === team.id ? 'primary.light' : '',
+                                        borderStyle: rank.id === team.id ? 'solid' : '',
+                                        borderWidth: rank.id === team.id ? '1px' : '',
+                                    }}
+                                    size={12}>
+                                    <Grid
+                                        size={1}
+                                        sx={{ textAlign: 'center' }}>
+                                        {index + 1}
+                                    </Grid>
+                                    <Grid size={{ xs: 7, sm: 4 }}>{rank.name}</Grid>
+                                    <Grid
+                                        size={1}
+                                        sx={{ textAlign: 'center' }}>
+                                        {rank.points}
+                                    </Grid>
+                                    <Grid
+                                        size={1}
+                                        sx={{ textAlign: 'center' }}>
+                                        {rank.matchPlayed}
+                                    </Grid>
+                                    <Grid
+                                        size={1}
+                                        sx={{ textAlign: 'center' }}>
+                                        {rank.matchesWon}
+                                    </Grid>
+                                    <Grid
+                                        size={1}
+                                        sx={{ textAlign: 'center' }}>
+                                        {rank.matchesLost}
+                                    </Grid>
+                                    <Grid
+                                        size={1}
+                                        sx={{
+                                            textAlign: 'center',
+                                            display: { xs: 'none', sm: 'block' },
+                                        }}>
+                                        {rank.setsWon.toString()}
+                                    </Grid>
+                                    <Grid
+                                        size={1}
+                                        sx={{
+                                            textAlign: 'center',
+                                            display: { xs: 'none', sm: 'block' },
+                                        }}>
+                                        {rank.setsLost.toString()}
+                                    </Grid>
+                                    <Grid
+                                        size={1}
+                                        sx={{
+                                            textAlign: 'center',
+                                            display: { xs: 'none', sm: 'block' },
+                                        }}>
+                                        {(rank.setsWon / rank.setsLost).toFixed(4).toString()}
+                                    </Grid>
+                                </Grid>
+                            )
+                        })}
+                </Grid>
+            </AccordionDetails>
+        </Accordion>
     )
 }
 
