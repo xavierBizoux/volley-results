@@ -8,7 +8,7 @@ import requests
 from bs4 import BeautifulSoup
 
 
-def read_data(input_url, output_file):
+def read_data(input_url: str, output_file: str):
     response = requests.get(input_url)
     soup = BeautifulSoup(response.text, "html.parser")
     script = soup.find("script", {"id": "__NEXT_DATA__"})
@@ -27,7 +27,7 @@ def read_data(input_url, output_file):
         pass
 
 
-def read_children(item, url):
+def read_children(item: dict, url: str, output_folder: str):
     if len(item.get("children")) > 0:
         for child in item.get("children"):
             read_children(child, url)
@@ -36,15 +36,15 @@ def read_children(item, url):
             filename = filenameCleaner(item.get("name"))
             read_data(
                 url + item.get("url"),
-                "data/" + filename + ".json",
+                output_folder + "/" + filename + ".json",
             )
 
 
-def filenameCleaner(filename):
+def filenameCleaner(filename: str):
     return filename.replace("Ht - ", "").replace("FVWB-", "").replace(" ", "_")
 
 
-def web_selector(directory, target_directory):
+def web_selector(directory: str, target_directory: str):
     data = []
     for root, dirs, files in os.walk(directory):
         for file in files:
@@ -54,7 +54,9 @@ def web_selector(directory, target_directory):
                         info = {
                             "path": "./data/" + file,
                             "name": file.replace(".json", "").replace("_", " "),
-                            "last_update": datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
+                            "last_update": datetime.datetime.now().strftime(
+                                "%Y-%m-%d %H:%M:%S"
+                            ),
                         }
                         data.append(info)
                         shutil.copy(
@@ -65,19 +67,20 @@ def web_selector(directory, target_directory):
         json.dump(data, f, indent=4)
 
 
-def reader(url, extract_path, web_path):
+def reader(url: str, extract_path: str, web_path: str):
     response = requests.get(url)
     soup = BeautifulSoup(response.text, "html.parser")
     script = soup.find("script", {"id": "__NEXT_DATA__"})
     data = json.loads(script.text)
     menu = data.get("props").get("menu")
+    print("Scraping web files...")
     for item in menu:
-        read_children(item, url)
+        read_children(item, url, extract_path)
+    print("Moving web files...")
     web_selector(extract_path, web_path)
 
 
 if __name__ == "__main__":
     EXTRACT_DATA_PATH = "/home/xavierb1/volley_data/data"
-    WEB_DATA_PATH = "/home/xavierb1/public_html/volley-data/data" 
+    WEB_DATA_PATH = "/home/xavierb1/public_html/volley-data/data"
     reader("https://www.portailfvwb.be/", EXTRACT_DATA_PATH, WEB_DATA_PATH)
-
