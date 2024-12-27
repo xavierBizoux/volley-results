@@ -8,40 +8,68 @@ import requests
 from bs4 import BeautifulSoup
 
 
+def get_urls(string):
+    indices = []
+    uris = []
+    try:
+        index = string.index("url")
+        while index != -1:
+            indices.append(index)
+            index = string.index("url", index + 1)
+    except ValueError:
+        pass
+    for index in indices:
+        [key, value] = string[index:].split(",")[0].replace('\\"', '"').split(":", 1)
+        uri = value.replace('"', "")
+        if "http" not in uri:
+            uris.append(uri)
+    return uris
+
+
+def parse_data(element: dict, output_file: str):
+    if isinstance(element, dict):
+        try:
+            if element.get("data"):
+                json_data = element.get("data")["games"]
+                with open(output_file, "w") as f:
+                    json.dump(json_data, f, indent=4)
+            elif element.get("children"):
+                parse_data(element.get("children"), output_file)
+        except:
+            pass
+    if isinstance(element, list):
+        for item in element:
+            parse_data(item, output_file)
+
+
 def read_data(input_url: str, output_file: str):
+    print(output_file)
     response = requests.get(input_url)
     soup = BeautifulSoup(response.text, "html.parser")
-    script = soup.find("script", {"id": "__NEXT_DATA__"})
-    try:
-        data = json.loads(script.text)
-        games = (
-            data.get("props")
-            .get("pageProps")
-            .get("initialSections")[0]
-            .get("data")
-            .get("games")
+    script = soup.find(lambda tag: tag.name == "script" and "data:" in tag.text)
+    if script is not None:
+        raw_data = (
+            script.text.replace("self.__next_f.push(", "")[:-1]
+            .replace('\\"', '"')
+            .replace('\\"', '"')
         )
-        with open(output_file, "w") as f:
-            json.dump(games, f, indent=4)
-    except:
-        pass
+        data = json.loads(raw_data[6:-4])
+        parse_data(data, output_file)
 
 
-def read_children(item: dict, url: str, output_folder: str):
-    if len(item.get("children")) > 0:
-        for child in item.get("children"):
-            read_children(child, url)
+def proper_name(file: str):
+    elements = file.split("-")
+    if len(elements) > 3:
+        elements[0] = elements[0].upper()
+        if "Proma" in elements[0]:
+            elements[0] = "Promotion A"
+        elements[1] = elements[1].capitalize()
+        if elements[2] == "r":
+            elements[2] = "Réserve"
+        elements.pop(3)
+        return " ".join(elements)
     else:
-        if item.get("url"):
-            filename = filenameCleaner(item.get("name"))
-            read_data(
-                url + item.get("url"),
-                output_folder + "/" + filename + ".json",
-            )
-
-
-def filenameCleaner(filename: str):
-    return filename.replace("Ht - ", "").replace("FVWB-", "").replace(" ", "_")
+        return file.replace(".json", "").replace("_", " ")
 
 
 def web_selector(directory: str, target_directory: str):
@@ -50,32 +78,43 @@ def web_selector(directory: str, target_directory: str):
         for file in files:
             if file.endswith(".json"):
                 with open(os.path.join(root, file), "r") as f:
-                    if "Binchois" in f.read() and "_R.json" not in file:
+                    if (
+                        "Binchois" in f.read()
+                        and "_R.json" not in file
+                        and "belgian-volley" not in file
+                    ):
                         info = {
                             "path": "./data/" + file,
-                            "name": file.replace(".json", "").replace("_", " "),
+                            "name": proper_name(file),
                             "last_update": datetime.datetime.now().strftime(
                                 "%Y-%m-%d %H:%M:%S"
                             ),
                         }
-                        data.append(info)
-                        shutil.copy(
-                            os.path.join(root, file),
-                            os.path.join(target_directory, file),
-                        )
+                        try:
+                            shutil.copy2(
+                                os.path.join(root, file),
+                                os.path.join(target_directory, file),
+                            )
+                            data.append(info)
+                        except shutil.SameFileError:
+                            print(
+                                f"Error: Source and destination are the same file. Copy skipped."
+                            )
+                        except Exception as e:
+                            print(f"An unexpected error occurred: {e}")
+    sorted_data = sorted(data, key=lambda d: d["name"])
     with open(os.path.join(target_directory, "data.json"), "w") as f:
-        json.dump(data, f, indent=4)
+        json.dump(sorted_data, f, indent=4)
 
 
 def reader(url: str, extract_path: str, web_path: str):
     response = requests.get(url)
     soup = BeautifulSoup(response.text, "html.parser")
-    script = soup.find("script", {"id": "__NEXT_DATA__"})
-    data = json.loads(script.text)
-    menu = data.get("props").get("menu")
+    script = soup.find(lambda tag: tag.name == "script" and "is_federation" in tag.text)
+    uris = get_urls(script.text)
     print("Scraping web files...")
-    for item in menu:
-        read_children(item, url, extract_path)
+    for uri in uris:
+        read_data(url + uri, extract_path + "/" + uri + ".json")
     print("Moving web files...")
     web_selector(extract_path, web_path)
 
