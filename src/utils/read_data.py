@@ -43,7 +43,6 @@ def parse_data(element: dict, output_file: str):
 
 
 def read_data(input_url: str, output_file: str):
-    print(output_file)
     response = requests.get(input_url)
     soup = BeautifulSoup(response.text, "html.parser")
     script = soup.find(lambda tag: tag.name == "script" and "data:" in tag.text)
@@ -97,9 +96,7 @@ def web_selector(directory: str, target_directory: str):
                             )
                             data.append(info)
                         except shutil.SameFileError:
-                            print(
-                                f"Error: Source and destination are the same file. Copy skipped."
-                            )
+                            pass
                         except Exception as e:
                             print(f"An unexpected error occurred: {e}")
     sorted_data = sorted(data, key=lambda d: d["name"])
