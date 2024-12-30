@@ -8,22 +8,31 @@ import requests
 from bs4 import BeautifulSoup
 
 
-def get_urls(string):
-    indices = []
-    uris = []
-    try:
-        index = string.index("url")
-        while index != -1:
-            indices.append(index)
-            index = string.index("url", index + 1)
-    except ValueError:
-        pass
-    for index in indices:
-        [key, value] = string[index:].split(",")[0].replace('\\"', '"').split(":", 1)
-        uri = value.replace('"', "")
-        if "http" not in uri:
-            uris.append(uri)
-    return uris
+def read_children(item: dict, url: str, output_folder: str):
+    if len(item.get("children")) > 0:
+        for child in item.get("children"):
+            read_children(child, url, output_folder)
+    else:
+        if item.get("url"):
+            filename = filenameCleaner(item.get("name"))
+            read_data(
+                url + item.get("url"),
+                output_folder + "/" + filename + ".json",
+            )
+
+
+def filenameCleaner(filename: str):
+    return filename.replace("Ht - ", "").replace("FVWB-", "").replace(" ", "_")
+
+
+def get_menu(string: str):
+    raw_data = (
+        string.replace("self.__next_f.push(", "")[:-1]
+        .replace("\\\\", "\\")
+        .replace('\\"', '"')
+    )
+    data = json.loads(raw_data[6:-4])
+    return data[3].get("value").get("menu")
 
 
 def parse_data(element: dict, output_file: str):
@@ -49,42 +58,23 @@ def read_data(input_url: str, output_file: str):
     if script is not None:
         raw_data = (
             script.text.replace("self.__next_f.push(", "")[:-1]
-            .replace('\\"', '"')
+            .replace("\\\\", "\\")
             .replace('\\"', '"')
         )
         data = json.loads(raw_data[6:-4])
         parse_data(data, output_file)
 
 
-def proper_name(file: str):
-    elements = file.split("-")
-    if len(elements) > 3:
-        elements[0] = elements[0].upper()
-        if "Proma" in elements[0]:
-            elements[0] = "Promotion A"
-        elements[1] = elements[1].capitalize()
-        if elements[2] == "r":
-            elements[2] = "Réserve"
-        elements.pop(3)
-        return " ".join(elements)
-    else:
-        return file.replace(".json", "").replace("_", " ")
-
-
 def web_selector(directory: str, target_directory: str):
     data = []
     for root, dirs, files in os.walk(directory):
         for file in files:
-            if file.endswith(".json"):
+            if file.endswith(".json") and "_R.json" not in file:
                 with open(os.path.join(root, file), "r") as f:
-                    if (
-                        "Binchois" in f.read()
-                        and "_R.json" not in file
-                        and "belgian-volley" not in file
-                    ):
+                    if "Binchois" in f.read():
                         info = {
                             "path": "./data/" + file,
-                            "name": proper_name(file),
+                            "name": file.replace(".json", "").replace("_", " "),
                             "last_update": datetime.datetime.now().strftime(
                                 "%Y-%m-%d %H:%M:%S"
                             ),
@@ -108,10 +98,10 @@ def reader(url: str, extract_path: str, web_path: str):
     response = requests.get(url)
     soup = BeautifulSoup(response.text, "html.parser")
     script = soup.find(lambda tag: tag.name == "script" and "is_federation" in tag.text)
-    uris = get_urls(script.text)
+    menu = get_menu(script.text)
     print("Scraping web files...")
-    for uri in uris:
-        read_data(url + uri, extract_path + "/" + uri + ".json")
+    for item in menu:
+        read_children(item, url, extract_path)
     print("Moving web files...")
     web_selector(extract_path, web_path)
 
