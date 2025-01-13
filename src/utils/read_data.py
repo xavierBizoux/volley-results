@@ -25,6 +25,17 @@ def filenameCleaner(filename: str):
     return filename.replace("Ht - ", "").replace("FVWB-", "").replace(" ", "_")
 
 
+def proper_name(input_str: str, replacement: str):
+    input_str = input_str.replace(".json", "").replace("_", " ")
+    # Check if the second character exists and is numeric
+    if len(input_str) > 1 and input_str[1].isdigit():
+        # Replace the first character with the replacement string
+        return replacement + input_str[1:]
+    else:
+        # If the second character isn't numeric, return the original string
+        return input_str
+
+
 def get_menu(string: str):
     raw_data = (
         string.replace("self.__next_f.push(", "")[:-1]
@@ -74,7 +85,7 @@ def web_selector(directory: str, target_directory: str):
                     if "Binchois" in f.read():
                         info = {
                             "path": "./data/" + file,
-                            "name": file.replace(".json", "").replace("_", " "),
+                            "name": proper_name(file, "Provinciale "),
                             "last_update": datetime.datetime.now().strftime(
                                 "%Y-%m-%d %H:%M:%S"
                             ),
