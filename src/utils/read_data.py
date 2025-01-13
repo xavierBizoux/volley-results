@@ -25,14 +25,18 @@ def filenameCleaner(filename: str):
     return filename.replace("Ht - ", "").replace("FVWB-", "").replace(" ", "_")
 
 
-def proper_name(input_str: str, replacement: str):
+def proper_name(input_str: str):
     input_str = input_str.replace(".json", "").replace("_", " ")
-    # Check if the second character exists and is numeric
     if len(input_str) > 1 and input_str[1].isdigit():
-        # Replace the first character with the replacement string
-        return replacement + input_str[1:]
+        match input_str[0]:
+            case "P":
+                replacement = "Provinciale"
+            case "N":
+                replacement = "Nationale"
+            case _:
+                replacement = input_str[0]
+        return f"{replacement} {input_str[1:]}"
     else:
-        # If the second character isn't numeric, return the original string
         return input_str
 
 
