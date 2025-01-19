@@ -89,7 +89,7 @@ def web_selector(directory: str, target_directory: str):
                     if "Binchois" in f.read():
                         info = {
                             "path": "./data/" + file,
-                            "name": proper_name(file, "Provinciale "),
+                            "name": proper_name(file),
                             "last_update": datetime.datetime.now().strftime(
                                 "%Y-%m-%d %H:%M:%S"
                             ),
